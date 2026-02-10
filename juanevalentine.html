@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="af">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vir my mooiste Juane 💗</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #ff9aa2 0%, #fad0c4 100%);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .container {
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 9vw, 4.5rem);
+      color: #fff;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      margin-bottom: 0.4em;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .subtitle {
+      font-size: clamp(1.3rem, 5vw, 2rem);
+      color: white;
+      margin: 20px 0 40px;
+      max-width: 90%;
+      line-height: 1.4;
+    }
+
+    .heart-stage {
+      font-size: clamp(4rem, 18vw, 9rem);
+      margin: 30px 0;
+      animation: beat 1.4s infinite;
+      display: none;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 40px 0;
+    }
+
+    button {
+      font-size: clamp(1.2rem, 5vw, 1.8rem);
+      padding: 16px 40px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    #yes {
+      background: #ff4757;
+      color: white;
+    }
+
+    #yes:hover {
+      background: #ff1f3d;
+      transform: scale(1.12);
+    }
+
+    #no {
+      background: #dfe4ea;
+      color: #2f3542;
+    }
+
+    #no:hover {
+      background: #c8d6e5;
+    }
+
+    .final-message {
+      display: none;
+      font-size: clamp(2rem, 7vw, 3.8rem);
+      color: white;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.35);
+      margin-top: 30px;
+      animation: fadeIn 2s;
+    }
+
+    .small-heart {
+      position: absolute;
+      font-size: 1.5rem;
+      user-select: none;
+      pointer-events: none;
+      animation: floatUp 8s linear forwards;
+      opacity: 0.9;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.15); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-15px); }
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    @media (orientation: landscape) and (max-height: 500px) {
+      .container { padding: 10px; }
+      h1 { font-size: 3rem; }
+      .subtitle { font-size: 1.4rem; margin: 10px 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Juane ❤️</h1>
+
+  <div class="subtitle">
+    Ek het 'n baie belangrike vraag vir jou...
+  </div>
+
+  <div id="question" class="subtitle">
+    Sal jy my Valentyn wees?
+  </div>
+
+  <div class="heart-stage" id="bigHeart">💗</div>
+
+  <div class="buttons" id="choiceButtons">
+    <button id="yes">JA natuurlik! 💕</button>
+    <button id="no">Nee</button>
+  </div>
+
+  <div class="final-message" id="happyEnding">
+    Jy het my die gelukkigste ou op aarde gemaak nie waar nie? 🥰<br><br>
+    Ek is mal oor jou, my liefie!
+  </div>
+</div>
+
+<script>
+  const yesBtn = document.getElementById('yes');
+  const noBtn = document.getElementById('no');
+  const question = document.getElementById('question');
+  const bigHeart = document.getElementById('bigHeart');
+  const buttons = document.getElementById('choiceButtons');
+  const happyEnding = document.getElementById('happyEnding');
+
+  // Moving "No" button when hovered/touched
+  noBtn.addEventListener('mouseover', moveNoButton);
+  noBtn.addEventListener('touchstart', moveNoButton, {passive: true});
+
+  function moveNoButton() {
+    const x = Math.random() * (window.innerWidth - 180) + 40;
+    const y = Math.random() * (window.innerHeight - 180) + 40;
+    
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+  }
+
+  // Yes = happiness
+  yesBtn.addEventListener('click', () => {
+    question.style.display = 'none';
+    buttons.style.display = 'none';
+    noBtn.style.display = 'none';
+    bigHeart.style.display = 'block';
+    
+    happyEnding.style.display = 'block';
+    
+    // Start floating hearts
+    setInterval(createHeart, 400);
+  });
+
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'small-heart';
+    heart.innerHTML = ['💗','💖','❤️','💘','💕'][Math.floor(Math.random()*5)];
+    
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+    heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+    
+    document.body.appendChild(heart);
+    
+    setTimeout(() => heart.remove(), 9000);
+  }
+
+  // Start a few hearts right away
+  for(let i = 0; i < 6; i++) {
+    setTimeout(createHeart, i * 600);
+  }
+</script>
+
+</body>
+</html>
